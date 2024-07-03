@@ -171,20 +171,8 @@ var transect = ee.Geometry.LineString(
   
   // ************************************************************** //
   
-  // Llamamos a la colección Landsat 8 nuevamente
-  var col8 = ee.ImageCollection("LANDSAT/LC08/C02/T1_TOA")
-    .filterDate('2024-03-26', '2024-03-28')
-  
-  // Seleccionamos la "B10" de la colección
-  var temperature = col8.filterBounds(transect)
-      .select(['B10'], ['temp'])
-      .map(function(image) {
-        return image.subtract(273.15)
-            .set('system:time_start', image.get('system:time_start'));
-      });
-  
   // Obtenemos de las temperatura
-  var temperatura = temperature.reduce(ee.Reducer.mean())
+  var temperatura = LST.reduce(ee.Reducer.mean())
       .select([0], ['Temperatura']);
   
   // Obtenemos el NDVI
